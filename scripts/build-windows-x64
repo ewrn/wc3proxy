@@ -12,18 +12,23 @@ mv dist/wc3proxy.exe dist/wc3proxy-cli.exe
 # download tclkit and sdx
 curl -kLso 'tmp/sdx.kit' 'https://chiselapp.com/user/aspect/repository/sdx/uv/sdx-20110317.kit'
 curl -kLso 'tmp/tclkitsh.exe' 'http://tclkits.rkeene.org/fossil/raw/tclkitsh-8.6.3-win32-x86_64.exe?name=3827d0c8fab8a88fad26b62bb1becae808ce6d5a'
+chmod +x tmp/tclkitsh.exe
 curl -kLso 'tmp/tclkit.exe' 'http://tclkits.rkeene.org/fossil/raw/tclkit-8.6.3-win32-x86_64.exe?name=403c507437d0b10035c7839f22f5bb806ec1f491'
+chmod +x tmp/tclkit.exe
 
 # download warp-packer
 curl -Lso 'tmp/warp-packer.exe' 'https://github.com/dgiagio/warp/releases/download/v0.3.0/windows-x64.warp-packer.exe'
+chmod +x tmp/warp-packer.exe
 
 # download gui_converter
 curl -Lso 'tmp/gui_converter_win_64.zip' 'https://github.com/joshua-software-dev/SharpGuiConverter/releases/download/v1.0.0.0/gui_converter_win_64.zip'
-powershell -NoP -NonI -Command "Expand-Archive '.\tmp\gui_converter_win_64.zip' '.\tmp'"
+pwsh -NoP -NonI -Command "Expand-Archive '.\tmp\gui_converter_win_64.zip' '.\tmp'"
+chmod +x tmp/gui_converter.exe
 
 # download ResourceHacker
 curl -Lso 'tmp/resource_hacker.zip' 'http://www.angusj.com/resourcehacker/resource_hacker.zip'
-powershell -NoP -NonI -Command "Expand-Archive '.\tmp\resource_hacker.zip' '.\tmp'"
+pwsh -NoP -NonI -Command "Expand-Archive '.\tmp\resource_hacker.zip' '.\tmp'"
+chmod +x tmp/ResourceHacker.exe
 
 # create vfs
 cp -R gui dist/wc3proxy-gui.vfs
@@ -31,11 +36,11 @@ cp media/tclkit.inf dist/wc3proxy-gui.vfs
 
 # starkit packing
 cp tmp/tclkit.exe dist
-(cd dist && ../tmp/tclkitsh ../tmp/sdx.kit wrap wc3proxy-gui.exe -runtime tclkit.exe)
+(cd dist && ../tmp/tclkitsh.exe ../tmp/sdx.kit wrap wc3proxy-gui.exe -runtime tclkit.exe)
 rm -rf dist/wc3proxy-gui.vfs dist/wc3proxy-gui.bat dist/tclkit.exe
-tmp/ResourceHacker -open dist/wc3proxy-gui.exe -action addoverwrite -res media/wc3proxy.ico -mask ICONGROUP,TK, -save dist/wc3proxy-gui.exe
+tmp/ResourceHacker.exe -open dist/wc3proxy-gui.exe -action addoverwrite -res media/wc3proxy.ico -mask ICONGROUP,TK, -save dist/wc3proxy-gui.exe
 
 # warp packing
-tmp/warp-packer --arch windows-x64 --input_dir dist --exec wc3proxy-gui.exe --output dist/wc3proxy.exe
-tmp/gui_converter dist/wc3proxy.exe
-tmp/ResourceHacker -open dist/wc3proxy.exe -action addoverwrite -res media/wc3proxy.ico -mask ICONGROUP,MAINICON, -save dist/wc3proxy.exe
+tmp/warp-packer.exe --arch windows-x64 --input_dir dist --exec wc3proxy-gui.exe --output dist/wc3proxy.exe
+tmp/gui_converter.exe dist/wc3proxy.exe
+tmp/ResourceHacker.exe -open dist/wc3proxy.exe -action addoverwrite -res media/wc3proxy.ico -mask ICONGROUP,MAINICON, -save dist/wc3proxy.exe
