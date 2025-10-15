@@ -5,8 +5,8 @@ namespace eval ::utils:: {
 }
 
 proc ::utils::center { w } {
-	set x [expr { ( [winfo vrootwidth  $w] - [winfo reqwidth $w]  ) / 2 }]
-	set y [expr { ( [winfo vrootheight $w] - [winfo reqheight $w] ) / 2 }]
+	set x [expr { ( [winfo screenwidth  $w] - [winfo reqwidth $w]  ) / 2 }]
+	set y [expr { ( [winfo screenheight $w] - [winfo reqheight $w] ) / 2 }]
 	wm geometry $w +${x}+${y}
 	wm deiconify $w
 }
