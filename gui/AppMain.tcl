@@ -16,7 +16,7 @@ proc openTunnel {} {
 }
 
 set IP "1.0.0.1"
-set VERSION "1.28"
+set VERSION "1.27"
 set EXPANSION 1
 set validIp 1
 set validVersion 1
