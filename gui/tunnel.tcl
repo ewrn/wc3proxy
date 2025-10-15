@@ -107,7 +107,10 @@ proc ::tunnel::receive { window scroll stdout } {
 
 proc ::tunnel::start { ip version expansion } {
 	set command "\"[get_binary]\" \"$ip\" \"$version\" [expr {$expansion ? "TFT" : "RoC"}]"
-	set stdout [open |[concat $command 2>@1]]
+	if {[catch {open |[concat $command 2>@1]} stdout]} {
+		tk_messageBox -type ok -icon error -title "Execution Error" -message "Failed to start the proxy engine.\n\nDetails: $stdout"
+		exit
+	}
 	set window [::tunnel::setup $ip $stdout]
 	set scroll [::tunnel::scrollable $window]
 	fconfigure $stdout -blocking 0
